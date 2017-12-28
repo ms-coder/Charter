@@ -1,0 +1,11 @@
+{
+    widgets : 
+    [
+        {
+            name: google-table-for-customers
+            type: google-chart
+            file: c:\path\google-table.html
+        }
+    ]
+    
+}

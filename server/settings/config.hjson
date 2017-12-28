@@ -1,0 +1,38 @@
+{
+    # where content should be fetched from
+    DataSources : 
+    [
+    	{
+            # name of the source
+            name: SQLServer1
+            # type
+            type: sql-server
+            # connection string (only by sources for DB requests, url format)
+            connectionString: sqlserver://dev:Hugon677@igorz.database.windows.net/?encrypt=true&database=charter-test;
+        },
+       	{
+            name: YahooAPI
+            type: json-api
+        }
+    ]
+    Requests :
+    [
+    	{
+            name: getAllCustomers
+            # source name
+            source: SQLServer1
+            # request to data source. Placeholders %%a and %%b will substitued with values received from client.
+            request: SELECT TOP 20 c.CustomerID, c.CompanyName,COUNT(soh.SalesOrderID) AS OrderCount FROM SalesLT.Customer AS c LEFT OUTER JOIN SalesLT.SalesOrderHeader AS soh ON c.CustomerID = soh.CustomerID GROUP BY c.CustomerID, c.CompanyName ORDER BY OrderCount DESC;
+        },
+        {
+            name: getSomeSearchResults
+            source: YahooAPI
+            request: http://api.search.yahoo.com/WebSearchService/V1/webSearch?appid=YahooDemo&query=%%a&results=10
+
+        }
+
+    ]
+    
+    # possible values are 'server' or 'client'
+    Processing: server
+}
